@@ -4,6 +4,7 @@
   "scripts": {
     "build": "webpack --colors --progress",
     "build:test": "webpack --colors --progress --config=webpack.config.test.js",
+    "start": "tmux split-window -h \"npm run watch:build:test\" && tmux split-window -v \"npm run watch:build\" && npm run watch:test:server",
     "test": "npm run build:test && npm run test:server && npm run test:browser",
     "test:server": "mocha ./test/dist/ --reporter=list",
     "test:browser": "open ./test/dist/index.html",

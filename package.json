@@ -1,10 +1,11 @@
 {
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "build": "webpack --colors --progress",
     "build:prd": "NODE_ENV=production npm run build",
     "serve": "ws -d dist -p 1104",
+    "test": "mocha -w --reporter=list",
     "watch": "webpack --colors --progress --watch",
     "dev": "npm run watch & npm run serve"
   },
@@ -25,6 +26,7 @@
     "eslint-loader": "^1.6.1",
     "eslint-plugin-react": "^6.9.0",
     "mocha": "^3.2.0",
+    "proxy-polyfill": "^0.1.6",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",

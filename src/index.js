@@ -1,9 +1,9 @@
 import 'proxy-polyfill';
-import { assert } from 'chai';
+import check from 'check-types';
 
 const Enum = (constants, classFunc) => {
-  try { assert.isObject(constants); }
-  catch (e) { assert.isArray(constants); }
+  if ((check.object(constants) || check.array(constants)) === false)
+    throw new Error(`Cannot construct enum from type ${typeof constants}`);
 
   const o = {};
 

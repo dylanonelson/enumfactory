@@ -5,9 +5,9 @@
     "build": "webpack --colors --progress",
     "build:prd": "NODE_ENV=production npm run build",
     "serve": "ws -d dist -p 1104",
-    "test": "mocha -w --reporter=list",
+    "test": "mocha -w --reporter=list & open ./test/test.html",
     "watch": "webpack --colors --progress --watch",
-    "dev": "npm run watch & npm run serve"
+    "dev": "npm run watch & npm run test"
   },
   "author": "Dylan Nelson",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-1": "^6.22.0",
     "chai": "^3.5.0",
+    "check-types": "^7.1.5",
     "css-loader": "^0.26.1",
     "eslint": "^3.15.0",
     "eslint-loader": "^1.6.1",

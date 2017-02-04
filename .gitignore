@@ -2,4 +2,5 @@
 .s[a-z]?
 node_modules/
 dist/*bundle*
+test/*bundle*
 builds/

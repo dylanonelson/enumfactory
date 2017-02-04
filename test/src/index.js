@@ -1,5 +1,5 @@
 var assert = require('chai').assert;
-var Enum = require('../dist/bundle.js');
+var Enum = require('../../dist/bundle.js');
 
 describe('Enum', function() {
   it('is a function', function() {
@@ -21,9 +21,10 @@ describe('Enum', function() {
   });
 });
 
-describe('Enum objects', function() {
+describe('An enum object', function() {
   context('created with an object', function() {
     var e = null;
+    var f = null;
     var a = {
       'ALPHA': ['a'],
       'BETA': ['b'],
@@ -31,31 +32,44 @@ describe('Enum objects', function() {
 
     before('instantiate test enum', function() {
       e = Enum(a);
+      f = Enum(a);
     });
 
-    it('have keys for each constant', function() {
+    it('has keys for each constant', function() {
       Object.keys(a).forEach(k => assert.isDefined(e[k]));
     });
 
-    it('throw errors when you try to access an undefined key', function () {
+    it('throws errors when you try to access an undefined key', function () {
       assert.throw(function() { return e.OMEGA });
+    });
+
+    it('can be used for comparison across contexts', function() {
+      assert.notStrictEqual(e.ALPHA, f.BETA);
+      assert.strictEqual(e.ALPHA, f.ALPHA);
     });
   });
 
   context('created with an array', function() {
     var e = null;
+    var f = null;
     var a = ['ALPHA', 'BETA', 'GAMMA'];
 
-    before('instantiate test enum', function() {
+    before('instantiate test enums', function() {
       e = Enum(a);
+      f = Enum(a);
     });
 
-    it('have keys for each constant', function() {
+    it('has keys for each constant', function() {
       a.forEach(k => assert.isDefined(e[k]));
     });
 
-    it('throw errors when you try to access an undefined key', function () {
+    it('throws errors when you try to access an undefined key', function () {
       assert.throw(function() { return e.OMEGA });
+    });
+
+    it('can be used for comparison across contexts', function() {
+      assert.notStrictEqual(e.ALPHA, f.BETA);
+      assert.strictEqual(e.ALPHA, f.ALPHA);
     });
   });
 });

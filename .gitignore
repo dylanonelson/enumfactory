@@ -2,5 +2,6 @@
 .s[a-z]?
 node_modules/
 dist/*bundle*
-test/*bundle*
+test/dist/*bundle*
 builds/
+npm-debug.log

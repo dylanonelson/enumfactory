@@ -1,13 +1,15 @@
 {
   "version": "0.1.0",
-  "main": "dist/bundle.js",
+  "main": "dist/index.bundle.js",
   "scripts": {
     "build": "webpack --colors --progress",
-    "build:prd": "NODE_ENV=production npm run build",
-    "serve": "ws -d dist -p 1104",
-    "test": "mocha -w --reporter=list & open ./test/test.html",
-    "watch": "webpack --colors --progress --watch",
-    "dev": "npm run watch & npm run test"
+    "build:test": "webpack --colors --progress --config=webpack.config.test.js",
+    "test": "npm run build:test && npm run test:server && npm run test:browser",
+    "test:server": "mocha ./test/dist/ --reporter=list",
+    "test:browser": "open ./test/dist/index.html",
+    "watch:build": "npm run build -- --watch",
+    "watch:build:test": "npm run build:test -- --watch",
+    "watch:test:server": "mocha ./test/dist/ --reporter=list -w"
   },
   "author": "Dylan Nelson",
   "license": "ISC",

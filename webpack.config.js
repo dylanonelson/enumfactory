@@ -33,7 +33,7 @@ module.exports = {
     }],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'index.bundle.js',
     libraryTarget: 'umd',
     library: 'Enum',
     path: path.join(__dirname, 'dist'),

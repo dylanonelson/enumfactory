@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --colors --progress",
+    "build:prd": "NODE_ENV=production npm run build",
+    "serve": "ws -d dist -p 1104",
+    "watch": "webpack --colors --progress --watch",
+    "dev": "npm run watch & npm run serve"
+  },
+  "author": "Dylan Nelson",
+  "license": "ISC",
+  "name": "enumjs",
+  "dependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-1": "^6.22.0",
+    "chai": "^3.5.0",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.15.0",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-react": "^6.9.0",
+    "mocha": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0",
+    "ws": "^2.0.2"
+  }
+}

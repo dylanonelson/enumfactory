@@ -70,6 +70,7 @@ const Enum = (classOrFunc) => {
 
       o[c.name] = createConstant(c.name, c.args);
       o.values = () => values;
+      o.valueOf = (name) => values.find(v => v.name() === name);
     });
 
     const proxy = new Proxy(o, {

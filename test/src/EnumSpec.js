@@ -33,6 +33,14 @@ describe('Enum', function() {
 });
 
 describe('An enum object', function() {
+  it ('has a values method that returns its constants', function() {
+    var a = [constant('ALPHA'), constant('BETA')];
+    var e = Enum()(...a);
+
+    assert.strictEqual(e.values().length, 2);
+    assert.strictEqual(e.values()[0], e.ALPHA);
+    assert.strictEqual(e.values()[1], e.BETA);
+  });
   context('created without a class or factory', function() {
     var a = [constant('ALPHA'), constant('BETA')];
     var e = Enum()(...a);

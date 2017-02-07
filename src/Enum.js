@@ -11,6 +11,7 @@ const Enum = (classOrFunc) => {
     const o = {};
     let constantIndex = 0;
     const named = [];
+    const values = [];
 
     const createConstant = (name, args) => {
       if (named.includes(name))
@@ -60,6 +61,7 @@ const Enum = (classOrFunc) => {
       const index = constantIndex++;
       instance.ordinal = () => index;
 
+      values.push(instance);
       return instance;
     };
 
@@ -67,6 +69,7 @@ const Enum = (classOrFunc) => {
       const c = cf();
 
       o[c.name] = createConstant(c.name, c.args);
+      o.values = () => values;
     });
 
     const proxy = new Proxy(o, {

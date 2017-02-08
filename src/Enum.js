@@ -1,13 +1,13 @@
 import check from 'check-types';
+import EnumValue from './EnumValue';
 
-const Enum = (classOrFunc) => {
-  if (
-    (classOrFunc !== undefined) &&
-    (check.function(classOrFunc) === false)
-  )
+const Enum = (...enumArgs) => {
+  const classOrFunc = enumArgs[0];
+
+  if (check.function(classOrFunc) === false)
     throw new Error(`Cannot construct enum from type ${typeof classOrFunc}`);
 
-  return (...constants) => {
+  const createConstants = (...constants) => {
     const o = {};
     let constantIndex = 0;
     const named = [];
@@ -21,31 +21,32 @@ const Enum = (classOrFunc) => {
 
       let instance = null;
 
-      // no function provided
-      if (classOrFunc === undefined) {
+      // No function provided
+      if (classOrFunc.__defined_constant__) {
 
         // If there are any arguments, notify that they will not be processed
-        if (args.length > 0)
+        if (args) {
           throw new Error(`Cannot process arguments ${args} without class or ` +
             'facory function');
+        }
 
-        instance = {};
+        instance = new String(name);
       }
 
-      // es6 class
-      else if (/class/.test(classOrFunc)) {
+      // ES6 class
+      else if (/class/.test(classOrFunc.toString())) {
         try {
-          instance = new classOrFunc(args);
+          instance = new classOrFunc(...args);
         } catch (e) {
           throw new Error('Error thrown while calling constructor ' +
             `${classOrFunc}: ${e}`);
         }
       }
 
-      // factory method
+      // Factory method
       else {
         try {
-          instance = classOrFunc(args);
+          instance = classOrFunc(...args);
         } catch (e) {
           throw new Error('Error thrown while calling function' +
             `${classOrFunc}: ${e}`);
@@ -56,13 +57,14 @@ const Enum = (classOrFunc) => {
         throw new Error(`${classOrFunc} did not return an object and therefore cannot be made into an enum`);
       }
 
-      instance.name = () => name;
+      const enumValue = new EnumValue({
+        ordinal: constantIndex++,
+        name,
+        value: instance,
+      });
 
-      const index = constantIndex++;
-      instance.ordinal = () => index;
-
-      values.push(instance);
-      return instance;
+      values.push(enumValue);
+      return enumValue;
     };
 
     constants.forEach(cf => {
@@ -70,7 +72,7 @@ const Enum = (classOrFunc) => {
 
       o[c.name] = createConstant(c.name, c.args);
       o.values = () => values;
-      o.valueOf = (name) => values.find(v => v.name() === name);
+      o.valueOf = (name) => values.find(v => v.name === name);
     });
 
     const proxy = new Proxy(o, {
@@ -89,6 +91,13 @@ const Enum = (classOrFunc) => {
     return Object.create(proxy);
   };
 
+  // If args are defined constants, enumerate them
+  if (classOrFunc.__defined_constant__)
+    return createConstants(...enumArgs);
+
+  // Otherwise, assume that the argument is a factory function or class and
+  // return a function that accepts defined constants
+  return createConstants;
 }
 
 export default Enum;

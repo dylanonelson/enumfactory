@@ -2,6 +2,7 @@
 .s[a-z]?
 node_modules/
 dist/*bundle*
+dist/index.html
 test/dist/*bundle*
 builds/
 npm-debug.log

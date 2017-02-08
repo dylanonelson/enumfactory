@@ -1,39 +1,39 @@
 import { assert } from 'chai';
-import { constant } from '../../dist/index.bundle.js';
+import { defineConstant } from '../../dist/index.bundle.js';
 
 describe('Constant', function() {
   it('is a function', function() {
-    assert.typeOf(constant, 'function');
+    assert.typeOf(defineConstant, 'function');
   });
 
   it('throws an error if called without arguments', function() {
-    assert.throw(constant);
+    assert.throw(defineConstant);
   });
 
   it('throws an error if called with an argument besides a string', function() {
-    assert.throw(() => constant(null));
-    assert.throw(() => constant({ one: 1 }));
+    assert.throw(() => defineConstant(null));
+    assert.throw(() => defineConstant({ one: 1 }));
   });
 
   it('returns a function', function() {
-    var result = constant('ALPHA');
+    var result = defineConstant('ALPHA');
     assert.isFunction(result);
   });
 
   context('called with one set of arguments', function() {
     it('returns an object', function() {
-      var constantResult = constant('ALPHA')();
+      var constantResult = defineConstant('ALPHA')();
       assert.isObject(constantResult);
     });
 
     it('sets the name property on the object', function() {
-      var constantResult = constant('ALPHA')();
+      var constantResult = defineConstant('ALPHA')();
       assert.strictEqual(constantResult.name, 'ALPHA');
     });
   });
 
   context('Constant called with two sets of arguments', function() {
-    var constantResult = constant('ALPHA')(1, 2, 3)();
+    var constantResult = defineConstant('ALPHA')(1, 2, 3)();
 
     it('returns an object', function() {
       assert.isObject(constantResult);

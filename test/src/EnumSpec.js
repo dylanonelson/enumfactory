@@ -109,6 +109,10 @@ describe('An enum object', function() {
       assert.notStrictEqual(e.WHITE, e.BLACK);
       assert.strictEqual(e.WHITE, e.WHITE);
     });
+
+    it('reflects that it\'s an enum when converted to a string', function() {
+      assert.strictEqual(e.WHITE.toString(), 'Enum WHITE');
+    });
   });
 });
 
@@ -124,8 +128,8 @@ describe('An enum constant', function() {
       e = Enum(Colors)(...a);
     });
 
-    it('is an instance of EnumValue', function() {
-      assert.instanceOf(e.WHITE, EnumValue);
+    it('is a function', function() {
+      assert.isFunction(e.WHITE, EnumValue);
     });
 
     it('has an ordinal', function() {
@@ -138,12 +142,12 @@ describe('An enum constant', function() {
       assert.strictEqual(e.BLACK.name, 'BLACK');
     });
 
-    it('has a value, which is of the type passed to Enum', function() {
-      assert.instanceOf(e.WHITE.value, Colors);
+    it('returns a value of the type passed to Enum when called', function() {
+      assert.instanceOf(e.WHITE(), Colors);
     });
 
     it('exposes underlying properties of the object', function() {
-      assert.strictEqual(e.WHITE.value.name, 'white');
+      assert.strictEqual(e.WHITE().name, 'white');
     });
   });
 
@@ -151,8 +155,8 @@ describe('An enum constant', function() {
     var a = [defineConstant('WHITE'), defineConstant('BLACK')];
     var e = Enum(...a);
 
-    it('is an instance of EnumValue', function() {
-      assert.instanceOf(e.WHITE, EnumValue);
+    it('is a function', function() {
+      assert.isFunction(e.WHITE);
     });
 
     it('has an ordinal', function() {
@@ -166,11 +170,11 @@ describe('An enum constant', function() {
     });
 
     it('has a value, which is of type String', function() {
-      assert.instanceOf(e.WHITE.value, String);
+      assert.instanceOf(e.WHITE(), String);
     });
 
     it('exposes underlying properties of the object', function() {
-      assert.strictEqual(e.WHITE.value.length, 5);
+      assert.strictEqual(e.WHITE().length, 5);
     });
   });
 });

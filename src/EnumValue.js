@@ -1,29 +1,35 @@
-class EnumValue {
-  constructor({ name, ordinal, value }) {
-    this._name = name;
-    this._ordinal = ordinal;
-    this._value = value;
+import check from 'check-types';
+
+function EnumValue({ name, ordinal, value }) {
+  const enumValueGenerator = new Function ('value',
+    `return function ${name}() { return value }`
+  );
+
+  const enumValue = enumValueGenerator(value);
+
+  enumValue.ordinal = ordinal;
+
+  const toString = () => `Enum ${name}`;
+
+  enumValue.getDeclaringClass = () => value.prototype ?
+    value.prototype.constructor :
+    value.__proto__ ?
+    value.__proto__.constructor :
+    undefined;
+
+  if (check.instance(value, String)) {
+    enumValue.toString = toString;
   }
 
-  get name() {
-    return this._name;
+  else {
+    if (value.toString && value.toString !== Object.prototype.toString) {
+      enumValue.toString = value.toString.bind(value);
+    } else {
+      enumValue.toString = toString;
+    }
   }
 
-  get ordinal() {
-    return this._ordinal;
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  toString() {
-    return `Enum ${this.name}`;
-  }
-
-  valueOf() {
-    return this.value;
-  }
+  return enumValue;
 }
 
 export default EnumValue;

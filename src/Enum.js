@@ -33,23 +33,13 @@ const Enum = (...enumArgs) => {
         instance = new String(name);
       }
 
-      // ES6 class
-      else if (/class/.test(classOrFunc.toString())) {
+      // Constructor function
+      else {
         try {
           instance = new classOrFunc(...args);
         } catch (e) {
-          throw new Error('Error thrown while calling constructor ' +
-            `${classOrFunc}: ${e}`);
-        }
-      }
-
-      // Factory method
-      else {
-        try {
-          instance = classOrFunc(...args);
-        } catch (e) {
-          throw new Error('Error thrown while calling function' +
-            `${classOrFunc}: ${e}`);
+          throw new Error('Error thrown while calling calling constructor ' +
+            `${classOrFunc.name}: ${e}`);
         }
       }
 
@@ -57,7 +47,7 @@ const Enum = (...enumArgs) => {
         throw new Error(`${classOrFunc} did not return an object and therefore cannot be made into an enum`);
       }
 
-      const enumValue = new EnumValue({
+      const enumValue = EnumValue({
         ordinal: constantIndex++,
         name,
         value: instance,

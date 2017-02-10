@@ -1,6 +1,6 @@
 import check from 'check-types';
 
-function EnumValue({ name, ordinal, value }) {
+function EnumValue({ name, ordinal, value, enumType }) {
   const enumValueGenerator = new Function ('value',
     `return function ${name}() { return value }`
   );
@@ -28,6 +28,8 @@ function EnumValue({ name, ordinal, value }) {
       enumValue.toString = toString;
     }
   }
+
+  enumValue.getEnumType = () => enumType;
 
   return enumValue;
 }

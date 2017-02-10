@@ -13,6 +13,22 @@ const Enum = (...enumArgs) => {
     const named = [];
     const values = [];
 
+    const proxy = Object.create(new Proxy(o, {
+      get(target, property) {
+        // Forward calls to methods such as #toString() to the object
+        if (typeof property === 'symbol')
+          return target[property];
+
+        if (target[property] === undefined)
+          throw new Error(`Value ${property} is not present in enum.`);
+
+        return target[property];
+      },
+      set(target, property, value) {
+        throw new Error('Cannot assign new members to enum type');
+      },
+    }));
+
     const createConstant = (name, args) => {
       if (named.includes(name))
         throw new Error(`Cannot define a constant for ${name} twice in the same enum`);
@@ -44,10 +60,11 @@ const Enum = (...enumArgs) => {
       }
 
       if (typeof instance !== 'object') {
-        throw new Error(`${classOrFunc} did not return an object and therefore cannot be made into an enum`);
+        throw new Error(`${classOrFunc.name} did not return an object and therefore cannot be made into an enum`);
       }
 
       const enumValue = EnumValue({
+        enumType: proxy,
         ordinal: constantIndex++,
         name,
         value: instance,
@@ -65,20 +82,7 @@ const Enum = (...enumArgs) => {
       o.valueOf = (name) => values.find(v => v.name === name);
     });
 
-    const proxy = new Proxy(o, {
-      get: (target, property) => {
-        // Forward calls to methods such as #toString() to the object
-        if (typeof property === 'symbol')
-          return target[property];
-
-        if (target[property] === undefined)
-          throw new Error(`Value ${property} is not present in enum.`);
-
-        return target[property];
-      },
-    });
-
-    return Object.create(proxy);
+    return proxy;
   };
 
   // If args are defined constants, enumerate them

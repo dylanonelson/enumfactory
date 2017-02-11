@@ -8,12 +8,12 @@ const Enum = (...enumArgs) => {
     throw new Error(`Cannot construct enum from type ${typeof classOrFunc}`);
 
   const createConstants = (...constants) => {
-    const o = {};
+    const targetObj = {};
     let constantIndex = 0;
     const named = [];
     const values = [];
 
-    const proxy = Object.create(new Proxy(o, {
+    const proxyProto = new Proxy(targetObj, {
       get(target, property) {
         // Forward calls to methods such as #toString() to the object
         if (typeof property === 'symbol')
@@ -27,7 +27,7 @@ const Enum = (...enumArgs) => {
       set(target, property, value) {
         throw new Error('Cannot assign new members to enum type');
       },
-    }));
+    });
 
     const createConstant = (name, args) => {
       if (named.includes(name))
@@ -71,16 +71,30 @@ const Enum = (...enumArgs) => {
       });
 
       values.push(enumValue);
+
       return enumValue;
     };
 
     constants.forEach(cf => {
       const c = cf();
-
-      o[c.name] = createConstant(c.name, c.args);
-      o.values = () => values;
-      o.valueOf = (name) => values.find(v => v.name === name);
+      targetObj[c.name] = createConstant(c.name, c.args);
     });
+
+    targetObj.values = () => values;
+    targetObj.valueOf = (name) => values.find(v => v.name === name);
+    targetObj.toString = () => `Enum type ${values[0]().constructor.name}`
+
+    // Set up properties on the Enum type object so that the values will be
+    // enumerable and exposed by Object.keys
+    const proxyProps = values.reduce((memo, value) => {
+      memo[value.name] = {
+        enumerable: true,
+        value,
+      };
+      return memo;
+    }, {});
+
+    const proxy = Object.create(proxyProto, proxyProps);
 
     return proxy;
   };

@@ -48,6 +48,7 @@ describe('An enum object', function() {
     assert.strictEqual(e.valueOf('BETA'), e.BETA);
   });
 
+
   context('created without a class or factory', function() {
     var a, e;
 
@@ -71,8 +72,23 @@ describe('An enum object', function() {
       assert.isDefined(e.BETA);
     });
 
+    it('has a toString method that reflects that its constant constructor', function() {
+      var a = [defineConstant('ALPHA'), defineConstant('BETA')];
+      var e = Enum(...a);
+
+      assert.strictEqual(e.toString(), 'Enum type String');
+    });
+
     it('throws errors when you try to access an undefined key', function() {
       assert.throw(function() { return e.OMEGA });
+    });
+
+    it('throws errors when you try to reset existing properties on it', function() {
+      assert.throw(function() { e.ALPHA = 'MyConstant' });
+    });
+
+    it('throws errors when you try to set new properties on it', function() {
+      assert.throw(function() { e.OMEGA = 'MyConstant' });
     });
 
     it('can be used for comparison within contexts', function() {
@@ -83,6 +99,10 @@ describe('An enum object', function() {
     it('reflects that it\'s an enum when converted to a string', function() {
       assert.strictEqual(e.ALPHA.toString(), 'Enum ALPHA');
     });
+
+    it('exposes the names of its constants as enumerable properties', function() {
+      assert.deepEqual(Object.keys(e), ['ALPHA', 'BETA']);
+    })
   });
 
   context('created with a class', function() {
@@ -101,8 +121,20 @@ describe('An enum object', function() {
       assert.isDefined(e.BLACK);
     });
 
+    it('has a toString method that reflects its constant constructor', function() {
+      assert.strictEqual(e.toString(), 'Enum type Colors');
+    });
+
     it('throws errors when you try to access an undefined key', function () {
       assert.throw(function() { return e.PURPLE });
+    });
+
+    it('throws errors when you try to reset existing properties on it', function() {
+      assert.throw(function() { e.WHITE = 'MyConstant' });
+    });
+
+    it('throws errors when you try to set new properties on it', function() {
+      assert.throw(function() { e.YELLOW = 'MyConstant' });
     });
 
     it('can be used for comparison within contexts', function() {

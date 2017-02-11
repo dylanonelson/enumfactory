@@ -29,8 +29,6 @@ function EnumValue({ name, ordinal, value, enumType }) {
     }
   }
 
-  enumValue.getEnumType = () => enumType;
-
   return enumValue;
 }
 

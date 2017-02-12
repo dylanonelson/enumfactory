@@ -1,5 +1,6 @@
 import check from 'check-types';
 import EnumValue from './EnumValue';
+import createEnumType from './createEnumType';
 
 const Enum = (...enumArgs) => {
   const classOrFunc = enumArgs[0];
@@ -64,7 +65,6 @@ const Enum = (...enumArgs) => {
       }
 
       const enumValue = EnumValue({
-        enumType: proxy,
         ordinal: constantIndex++,
         name,
         value: instance,
@@ -94,9 +94,9 @@ const Enum = (...enumArgs) => {
       return memo;
     }, {});
 
-    const proxy = Object.create(proxyProto, proxyProps);
-
-    return proxy;
+    const enumTypeClass = createEnumType(classOrFunc)(proxyProps);
+    enumTypeClass.prototype = proxyProto;
+    return new enumTypeClass();
   };
 
   // If args are defined constants, enumerate them

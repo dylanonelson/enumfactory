@@ -2,7 +2,7 @@ import check from 'check-types';
 
 function EnumValue({ name, ordinal, value, enumType }) {
   const enumClassGenerator = new Function ('name', 'ordinal',
-    `return function Enum_${name}() {
+    `return function ${name}() {
       Object.defineProperty(this, 'name', {
         get: function() { return function() { return name } },
       });

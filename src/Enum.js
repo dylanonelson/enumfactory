@@ -81,13 +81,13 @@ const Enum = (...enumArgs) => {
     });
 
     targetObj.values = () => values;
-    targetObj.valueOf = (name) => values.find(v => v.name === name);
-    targetObj.toString = () => `Enum type ${values[0]().constructor.name}`
+    targetObj.valueOf = (name) => values.find(v => v.name() === name);
+    targetObj.toString = () => `Enum type ${values[0].constructor.name}`
 
     // Set up properties on the Enum type object so that the values will be
     // enumerable and exposed by Object.keys
     const proxyProps = values.reduce((memo, value) => {
-      memo[value.name] = {
+      memo[value.name()] = {
         enumerable: true,
         value,
       };

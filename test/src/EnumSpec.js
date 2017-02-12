@@ -160,26 +160,23 @@ describe('An enum constant', function() {
       e = Enum(Colors)(...a);
     });
 
-    it('is a function', function() {
-      assert.isFunction(e.WHITE, EnumValue);
-    });
-
     it('has an ordinal', function() {
-      assert.strictEqual(e.WHITE.ordinal, 0);
-      assert.strictEqual(e.BLACK.ordinal, 1);
+      assert.strictEqual(e.WHITE.ordinal(), 0);
+      assert.strictEqual(e.BLACK.ordinal(), 1);
     });
 
     it('has a name', function() {
-      assert.strictEqual(e.WHITE.name, 'WHITE');
-      assert.strictEqual(e.BLACK.name, 'BLACK');
+      assert.strictEqual(e.WHITE.name(), 'WHITE');
+      assert.strictEqual(e.BLACK.name(), 'BLACK');
     });
 
     it('returns a value of the type passed to Enum when called', function() {
-      assert.instanceOf(e.WHITE(), Colors);
+      assert.instanceOf(e.WHITE, Colors);
     });
 
-    it('exposes underlying properties of the object', function() {
-      assert.strictEqual(e.WHITE().name, 'white');
+
+    it('exposes the underlying properties of the object', function() {
+      assert.strictEqual(Object.getPrototypeOf(e.WHITE).name, 'white');
     });
   });
 
@@ -187,26 +184,22 @@ describe('An enum constant', function() {
     var a = [defineConstant('WHITE'), defineConstant('BLACK')];
     var e = Enum(...a);
 
-    it('is a function', function() {
-      assert.isFunction(e.WHITE);
-    });
-
     it('has an ordinal', function() {
-      assert.strictEqual(e.WHITE.ordinal, 0);
-      assert.strictEqual(e.BLACK.ordinal, 1);
+      assert.strictEqual(e.WHITE.ordinal(), 0);
+      assert.strictEqual(e.BLACK.ordinal(), 1);
     });
 
     it('has a name', function() {
-      assert.strictEqual(e.WHITE.name, 'WHITE');
-      assert.strictEqual(e.BLACK.name, 'BLACK');
+      assert.strictEqual(e.WHITE.name(), 'WHITE');
+      assert.strictEqual(e.BLACK.name(), 'BLACK');
     });
 
     it('has a value, which is of type String', function() {
-      assert.instanceOf(e.WHITE(), String);
+      assert.instanceOf(e.WHITE, String);
     });
 
     it('exposes underlying properties of the object', function() {
-      assert.strictEqual(e.WHITE().length, 5);
+      assert.strictEqual(e.WHITE.length, 5);
     });
   });
 });

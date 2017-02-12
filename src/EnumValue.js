@@ -1,13 +1,21 @@
 import check from 'check-types';
 
 function EnumValue({ name, ordinal, value, enumType }) {
-  const enumValueGenerator = new Function ('value',
-    `return function ${name}() { return value }`
+  const enumClassGenerator = new Function ('name', 'ordinal',
+    `return function Enum_${name}() {
+      Object.defineProperty(this, 'name', {
+        get: function() { return function() { return name } },
+      });
+      Object.defineProperty(this, 'ordinal', {
+        get: function() { return function() { return ordinal } },
+      });
+    }`
   );
 
-  const enumValue = enumValueGenerator(value);
+  const EnumClass = enumClassGenerator(name, ordinal);
+  EnumClass.prototype = value;
 
-  enumValue.ordinal = ordinal;
+  const enumValue = new EnumClass();
 
   const toString = () => `Enum ${name}`;
 

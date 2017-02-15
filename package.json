@@ -6,11 +6,11 @@
     "build:test": "webpack --colors --progress --config=webpack.config.test.js",
     "start:tmux": "tmux split-window \"npm run watch:build:test\" && tmux split-window \"npm run watch:build\" && tmux select-layout main-vertical && npm run watch:test:server",
     "test": "npm run build:test && npm run test:server && npm run test:browser",
-    "test:server": "mocha ./test/dist/ --reporter=list",
+    "test:server": "mocha ./test/dist/",
     "test:browser": "open ./test/dist/index.html",
     "watch:build": "npm run build -- --watch",
     "watch:build:test": "npm run build:test -- --watch",
-    "watch:test:server": "mocha ./test/dist/ --reporter=list -w"
+    "watch:test:server": "mocha ./test/dist/ -w"
   },
   "author": "Dylan Nelson",
   "license": "ISC",

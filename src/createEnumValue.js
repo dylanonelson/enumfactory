@@ -1,6 +1,6 @@
 import check from 'check-types';
 
-function EnumValue({ name, ordinal, value, enumType }) {
+function createEnumValue({ name, ordinal, value, enumType }) {
   const enumClassGenerator = new Function ('name', 'ordinal',
     `return function ${name}() {
       Object.defineProperty(this, 'name', {
@@ -40,4 +40,4 @@ function EnumValue({ name, ordinal, value, enumType }) {
   return enumValue;
 }
 
-export default EnumValue;
+export default createEnumValue;

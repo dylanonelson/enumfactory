@@ -1,5 +1,5 @@
 import check from 'check-types';
-import EnumValue from './EnumValue';
+import createEnumValue from './createEnumValue';
 import createEnumType from './createEnumType';
 
 const Enum = (...enumArgs) => {
@@ -64,7 +64,7 @@ const Enum = (...enumArgs) => {
         throw new Error(`${classOrFunc.name} did not return an object and therefore cannot be made into an enum`);
       }
 
-      const enumValue = EnumValue({
+      const enumValue = createEnumValue({
         ordinal: constantIndex++,
         name,
         value: instance,

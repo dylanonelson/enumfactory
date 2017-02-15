@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { defineConstant, Enum, EnumValue } from '../../dist/index.bundle.js';
+import { defineConstant, Enum } from '../../dist/index.bundle.js';
 
 import { Colors } from './samples';
 

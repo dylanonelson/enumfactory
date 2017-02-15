@@ -1,8 +1,8 @@
 import { defineConstant, Enum } from 'enumjs';
 
 const Colors = Enum(
-  'RED',
-  'BLUE'
+  defineConstant('RED'),
+  defineConstant('BLUE')
 );
 
 Enum.RED; // => EnumValue { _name: 'RED', _ordinal: 0, _value: String }

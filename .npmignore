@@ -1,0 +1,5 @@
+test/
+bin/
+examples/
+src/
+webpack.*.js

@@ -30,7 +30,6 @@
     "eslint-loader": "^1.6.1",
     "eslint-plugin-react": "^6.9.0",
     "mocha": "^3.2.0",
-    "proxy-polyfill": "^0.1.6",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",

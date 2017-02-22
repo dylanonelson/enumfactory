@@ -5,6 +5,11 @@
     "type" : "git",
     "url" : "https://github.com/dylanonelson/enumfactory"
   },
+  "keywords": [
+    "enum",
+    "enumeration",
+    "java"
+  ],
   "scripts": {
     "build": "webpack --colors --progress",
     "build:test": "webpack --colors --progress --config=webpack.config.test.js",

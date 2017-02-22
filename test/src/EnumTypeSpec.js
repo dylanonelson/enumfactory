@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import { enumTypeFromClass, enumTypeFromString, Colors } from './samples';
+import { enumTypeFromClass, enumTypeFromParameterlessClass, enumTypeFromString, Colors } from './samples';
 
 var data = [
   {
@@ -11,10 +11,14 @@ var data = [
     value: enumTypeFromString,
     context: 'created with a string',
   },
+  {
+    value: enumTypeFromParameterlessClass,
+    context: 'created with a class and no parameters',
+  },
 ];
 
 var runTests = function(d) {
-  var e = d.value;
+  var e = d.value();
 
   describe('An enum object', function() {
     context(d.context, function() {

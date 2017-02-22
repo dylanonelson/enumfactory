@@ -1,9 +1,9 @@
 import 'proxy-polyfill';
 
-import Enum from './Enum';
+import createEnum from './createEnum';
 import defineConstant from './defineConstant';
 
 export {
-  Enum,
+  createEnum,
   defineConstant,
 };

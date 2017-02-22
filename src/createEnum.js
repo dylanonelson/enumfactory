@@ -2,7 +2,7 @@ import check from 'check-types';
 import createEnumValue from './createEnumValue';
 import createEnumType from './createEnumType';
 
-const Enum = (...enumArgs) => {
+const createEnum = (...enumArgs) => {
   const classOrFunc = enumArgs[0];
 
   if (check.function(classOrFunc) === false)
@@ -53,7 +53,12 @@ const Enum = (...enumArgs) => {
       // Constructor function
       else {
         try {
-          instance = new classOrFunc(...args);
+          if (args) {
+            instance = new classOrFunc(...args);
+          }
+          else {
+            instance = new classOrFunc();
+          }
         } catch (e) {
           throw new Error('Error thrown while calling calling constructor ' +
             `${classOrFunc.name}: ${e}`);
@@ -108,4 +113,4 @@ const Enum = (...enumArgs) => {
   return createConstants;
 }
 
-export default Enum;
+export default createEnum;

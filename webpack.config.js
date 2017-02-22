@@ -35,7 +35,7 @@ module.exports = {
   output: {
     filename: 'index.bundle.js',
     libraryTarget: 'umd',
-    library: 'Enum',
+    library: 'enumjs',
     path: path.join(__dirname, 'dist'),
   },
   plugins: [

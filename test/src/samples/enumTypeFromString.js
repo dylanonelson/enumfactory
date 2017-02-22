@@ -1,6 +1,6 @@
-import { Enum, defineConstant } from '../../../dist/index.bundle.js';
+import { createEnum, defineConstant } from '../../../dist/index.bundle.js';
 
-const enumTypeFromString = Enum(
+const enumTypeFromString = () => createEnum(
   defineConstant('WHITE'),
   defineConstant('BLACK')
 );

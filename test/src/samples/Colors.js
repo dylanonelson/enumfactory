@@ -1,8 +1,10 @@
 class Colors {
-  constructor({ rgb, hex, name }) {
-    this._rgb = rgb;
-    this._hex = hex;
-    this._name = name;
+  constructor(options) {
+    if (options) {
+      this._rgb = options.rgb;
+      this._hex = options.hex;
+      this._name = options.name;
+    }
   }
 
   get rgb() {

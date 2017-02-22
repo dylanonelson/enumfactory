@@ -1,6 +1,10 @@
 {
   "version": "0.1.0",
   "main": "dist/index.bundle.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/dylanonelson/enumfactory"
+  },
   "scripts": {
     "build": "webpack --colors --progress",
     "build:test": "webpack --colors --progress --config=webpack.config.test.js",

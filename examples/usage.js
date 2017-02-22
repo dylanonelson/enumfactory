@@ -1,4 +1,4 @@
-import { defineConstant, Enum } from 'enumjs';
+import { defineConstant, Enum } from 'enumfactory';
 
 const Colors = Enum(
   defineConstant('RED'),

@@ -1,4 +1,4 @@
-# enumjs
+# enumfactory
 
 > Java-like enums in JavaScript
 
@@ -7,8 +7,8 @@
 ```javascript
 // ES5, in the browser
 
-var createEnum = window.enumjs.createEnum;
-var defineConstant = window.enumjs.defineConstant;
+var createEnum = window.enumfactory.createEnum;
+var defineConstant = window.enumfactory.defineConstant;
 
 var Letters = createEnum(
   defineConstant('ALPHA'),
@@ -56,25 +56,25 @@ var Rainbow = createEnum(Color)(
 
 ## Installation
 
-Enumjs is available as an npm module and exported with the universal module definition, so you can choose to deploy or bundle it as a browser global, a CommonJS module, or an AMD module.
+enumfactory is available as an npm module and exported with the universal module definition, so you can choose to deploy or bundle it as a browser global, a CommonJS module, or an AMD module.
 
 It will only work in environments that support the `Proxy` global. It has not been rigorously tested in older browsers :-D.
 
 ## Methods
 
 ```javascript
-var enumjs = require('enumjs');
+var enumfactory = require('enumfactory');
 ```
 
-### enumjs.createEnum
+### enumfactory.createEnum
 Create a new Enum object. Takes as its arguments either
 
 1. A class or constructor function _or_
-2. A list of defined constants created with enumjs.defineConstant
+2. A list of defined constants created with enumfactory.defineConstant
 
-In the case of **1**, `createEnum` returns a function that takes as its arguments a list of defined constants created with enumjs.defineConstant. See below.
+In the case of **1**, `createEnum` returns a function that takes as its arguments a list of defined constants created with enumfactory.defineConstant. See below.
 
-### enumjs.defineConstant
+### enumfactory.defineConstant
 Define an enum constant to be consumed by `createEnum`. Takes as its sole argument the name of the enum to be defined.
 
 When defining a constant with a non-string type -- that is, one instantiated with a class or constructor function -- invoke `defineConstant`'s  return value to pass arguments to the constructor (this is ultimately accomplished by `createEnum`). If there are no arguments, or the EnumType defines only a set of possible string values, do not invoke `defineConstant`'s return value.

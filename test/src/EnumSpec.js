@@ -32,11 +32,11 @@ describe('createEnum', function() {
 
   it('throws errors when you pass arguments to it without a class', function() {
     assert.throw(() => createEnum(
-      defineConstant('ALPHA')('α'),
-      defineConstant('BETA')('β')
+      defineConstant('ALPHA', 'α'),
+      defineConstant('BETA', 'β')
     ));
     assert.throw(() => createEnum(
-      defineConstant('ALPHA')({ char: 'α' })
+      defineConstant('ALPHA', { char: 'α' })
     ));
   });
 });

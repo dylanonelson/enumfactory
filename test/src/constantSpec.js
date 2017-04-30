@@ -15,25 +15,25 @@ describe('Constant', function() {
     assert.throw(() => defineConstant({ one: 1 }));
   });
 
-  it('returns a function', function() {
+  it('returns an object', function() {
     var result = defineConstant('ALPHA');
-    assert.isFunction(result);
+    assert.isObject(result);
   });
 
   context('called with one set of arguments', function() {
     it('returns an object', function() {
-      var constantResult = defineConstant('ALPHA')();
+      var constantResult = defineConstant('ALPHA');
       assert.isObject(constantResult);
     });
 
     it('sets the name property on the object', function() {
-      var constantResult = defineConstant('ALPHA')();
+      var constantResult = defineConstant('ALPHA');
       assert.strictEqual(constantResult.name, 'ALPHA');
     });
   });
 
   context('Constant called with two sets of arguments', function() {
-    var constantResult = defineConstant('ALPHA')(1, 2, 3)();
+    var constantResult = defineConstant('ALPHA', 1, 2, 3);
 
     it('returns an object', function() {
       assert.isObject(constantResult);

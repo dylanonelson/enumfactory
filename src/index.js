@@ -1,5 +1,5 @@
 import createEnum from './createEnum';
-import defineConstant from './defineConstant';
+import { defineConstant } from './defineConstant';
 
 export {
   createEnum,

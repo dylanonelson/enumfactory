@@ -1,29 +1,26 @@
 import check from 'check-types';
 
-const defineConstant = (name) => {
+const defineConstant = (name, ...args) => {
   if (check.string(name) === false)
     throw new Error(`Cannot construct constant from argument type ${typeof name}`);
 
   const constantOptions = { name };
 
-  const namedConstant = (...args) => {
+  constantOptions.meta = {
+    ENUMFACTORY_CONSTANT_DEFINITION: true,
+  };
 
-    if (args.length === 0) {
-      return constantOptions;
-
-    } else {
-      const namedConstantWithParameters = () =>
-        Object.assign(constantOptions, { args });
-
-      namedConstantWithParameters.__defined_constant__ = true;
-
-      return namedConstantWithParameters;
-    }
+  if (args.length === 0) {
+    return constantOptions;
   }
 
-  namedConstant.__defined_constant__ = true;
-
-  return namedConstant;
+  return Object.assign(constantOptions, { args });
 };
 
-export default defineConstant;
+const objIsDefinedConstant = (o) => (
+  typeof o === 'object'
+    && o.meta
+    && o.meta.ENUMFACTORY_CONSTANT_DEFINITION === true
+);
+
+export { objIsDefinedConstant, defineConstant };

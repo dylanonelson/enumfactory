@@ -1,23 +1,22 @@
-import check from 'check-types';
 import createEnumValue from './createEnumValue';
 import createEnumType from './createEnumType';
 import { objIsDefinedConstant } from './defineConstant';
 
 const createEnum = (...enumArgs) => {
-  const classOrFunc = enumArgs[0];
+  if (enumArgs.length === 0)
+    throw new Error(`Cannot create an enum type with no defined constants`);
 
-  // First argument is neither a defined constant nor a valid factory
-  if (
-    check.function(classOrFunc) === false &&
-    objIsDefinedConstant(classOrFunc) === false
-  )
-    throw new Error(`Cannot construct enum from type ${typeof classOrFunc}`);
+  if (enumArgs.find(a => objIsDefinedConstant(a) === false))
+    throw new Error(`Arguments to \`createEnum\` must be created with \`defineConstant\``);
 
-  const createConstants = (...constants) => {
+  const createConstants = (classOrFunc, constants) => {
     const targetObj = {};
     let constantIndex = 0;
     const named = [];
     const values = [];
+
+    // Default class to String
+    classOrFunc = classOrFunc === null ? String : classOrFunc;
 
     const proxyProto = new Proxy(targetObj, {
       get(target, property) {
@@ -36,6 +35,7 @@ const createEnum = (...enumArgs) => {
     });
 
     const createConstant = (name, args) => {
+      console.log(named);
       if (named.includes(name))
         throw new Error(`Cannot define a constant for ${name} twice in the same enum`);
 
@@ -43,35 +43,20 @@ const createEnum = (...enumArgs) => {
 
       let instance = null;
 
-      // No function provided
-      if (objIsDefinedConstant(classOrFunc) === true) {
-
-        // If there are any arguments, notify that they will not be processed
+      try {
         if (args) {
-          throw new Error(`Cannot process arguments ${args} without class or ` +
-            'facory function');
+          instance = new classOrFunc(...args);
         }
-
-        instance = new String(name);
-      }
-
-      // Constructor function
-      else {
-        try {
-          if (args) {
-            instance = new classOrFunc(...args);
-          }
-          else {
-            instance = new classOrFunc();
-          }
-        } catch (e) {
-          throw new Error('Error thrown while calling calling constructor ' +
-            `${classOrFunc.name}: ${e}`);
+        else {
+          instance = new classOrFunc();
         }
+      } catch (e) {
+        throw new Error('Error thrown while calling calling constructor ' +
+          `${classOrFunc.name}: ${e}`);
       }
 
       if (typeof instance !== 'object') {
-        throw new Error(`${classOrFunc.name} did not return an object and therefore cannot be made into an enum`);
+        throw new Error(`${classOrFunc && classOrFunc.name} did not return an object and therefore cannot be made into an enum`);
       }
 
       const enumValue = createEnumValue({
@@ -86,6 +71,7 @@ const createEnum = (...enumArgs) => {
     };
 
     constants.forEach(config => {
+      console.log(config);
       targetObj[config.name] = createConstant(config.name, config.args);
     });
 
@@ -108,14 +94,9 @@ const createEnum = (...enumArgs) => {
     return new enumTypeClass();
   };
 
-  // If first arg is a defined constant, assume the same for the rest and
-  // enumerate them
-  if (objIsDefinedConstant(classOrFunc))
-    return createConstants(...enumArgs);
-
-  // Otherwise, assume that the argument is a factory function or class and
-  // return a function that accepts defined constants
-  return createConstants;
+  return function instantiateEnumValues(classOrFunc = null) {
+    return createConstants(classOrFunc, enumArgs);
+  };
 }
 
 export default createEnum;

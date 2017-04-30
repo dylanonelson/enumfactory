@@ -13,7 +13,7 @@ var defineConstant = window.enumfactory.defineConstant;
 var Letters = createEnum(
   defineConstant('ALPHA'),
   defineConstant('BETA')
-);
+)();
 
 Letters.ALPHA // => ALPHA {}
 
@@ -33,10 +33,10 @@ var Color = function(options) {
   }
 }
 
-var Colors = createEnum(Color)(
-  defineConstant('WHITE')({ hex: '#FFF', name: 'white' }),
-  defineConstant('BLACK')({ hex: '#000', name: 'black' })
-);
+var Colors = createEnum(
+  defineConstant('WHITE', { hex: '#FFF', name: 'white' }),
+  defineConstant('BLACK', { hex: '#000', name: 'black' })
+)(Color);
 
 Colors.values() // => [WHITE, BLACK]
 
@@ -46,12 +46,12 @@ Object.getPrototypeOf(Colors.WHITE.name) // => "white"
 
 Colors.RED // => Uncaught Error: Value RED is not present in enum.
 
-var Rainbow = createEnum(Color)(
+var Rainbow = createEnum(
   defineConstant('RED'),
   defineConstant('ORANGE'),
   defineConstant('YELLOW'),
   defineConstant('RED')
-); // => Uncaught Error: Cannot define a constant for RED twice in the same enum
+)(Color); // => Uncaught Error: Cannot define a constant for RED twice in the same enum
 ```
 
 ## Installation
@@ -67,19 +67,13 @@ var enumfactory = require('enumfactory');
 ```
 
 ### enumfactory.createEnum
-Create a new Enum object. Takes as its arguments either
-
-1. A class or constructor function _or_
-2. A list of defined constants created with enumfactory.defineConstant
-
-In the case of **1**, `createEnum` returns a function that takes as its arguments a list of defined constants created with enumfactory.defineConstant. See below.
+Create a new Enum object. Takes as its arguments a list of defined constants created with enumfactory.defineConstant. Returns a function that takes as an optional argument a class or constructor function and returns an `EnumType` object. If you do not provide a function with which to instantiate an enum, it defaults to `String`.
 
 ### enumfactory.defineConstant
-Define an enum constant to be consumed by `createEnum`. Takes as its sole argument the name of the enum to be defined.
-
-When defining a constant with a non-string type -- that is, one instantiated with a class or constructor function -- invoke `defineConstant`'s  return value to pass arguments to the constructor (this is ultimately accomplished by `createEnum`). If there are no arguments, or the EnumType defines only a set of possible string values, do not invoke `defineConstant`'s return value.
+Define an enum constant to be consumed by `createEnum`. Takes as its first argument the name of the enum to be defined. Any additional arguments will be passed to the constructor function when the return value of enumfactory.createEnum is invoked.
 
 ### EnumType
+An EnumType is what you get when you invoke the return value of enumfactory.createEnum.
 
 #### EnumType#values()
 Returns an array of EnumValues. See below.
@@ -94,7 +88,6 @@ Returns
 ```
 
 ### EnumValue
-
 An EnumValue is what you get when you retrieve a constant from an EnumType.
 
 #### EnumValue#getDeclaringClass()

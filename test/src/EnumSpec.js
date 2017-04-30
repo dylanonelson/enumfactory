@@ -1,8 +1,6 @@
 import { assert } from 'chai';
 import { defineConstant, createEnum } from '../../dist/index.bundle.js';
 
-import { Colors } from './samples';
-
 describe('createEnum', function() {
   it('is a function', function() {
     assert.typeOf(createEnum, 'function');

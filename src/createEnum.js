@@ -14,9 +14,13 @@ const createEnum = (...enumArgs) => {
     let constantIndex = 0;
     const named = [];
     const values = [];
+    let stringMode = false;
 
     // Default class to String
-    classOrFunc = classOrFunc === null ? String : classOrFunc;
+    if (classOrFunc === null) {
+      stringMode = true;
+      classOrFunc = String;
+    }
 
     const proxyProto = new Proxy(targetObj, {
       get(target, property) {
@@ -35,9 +39,12 @@ const createEnum = (...enumArgs) => {
     });
 
     const createConstant = (name, args) => {
-      console.log(named);
       if (named.includes(name))
         throw new Error(`Cannot define a constant for ${name} twice in the same enum`);
+
+      if (args && stringMode)
+        throw new Error('Cannot pass arguments without also providing a ' +
+                        'class or factory function');
 
       named.push(name);
 
@@ -71,7 +78,6 @@ const createEnum = (...enumArgs) => {
     };
 
     constants.forEach(config => {
-      console.log(config);
       targetObj[config.name] = createConstant(config.name, config.args);
     });
 

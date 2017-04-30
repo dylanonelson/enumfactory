@@ -22,4 +22,10 @@ describe('createEnum', function() {
       defineConstant('ALPHA')
     )());
   });
+
+  it('throws an error if you pass arguments without a class or constructor function', function() {
+    assert.throw(() => createEnum(
+      defineConstant('ALPHA', 'a')
+    )());
+  });
 });

@@ -10,3 +10,4 @@ deploy:
     tags: true
     skip_cleanup: true
   provider: npm
+sudo: required

@@ -1,4 +1,4 @@
-# enumfactory
+# enumfactory ![Build status](https://travis-ci.org/dylanonelson/enumfactory.svg?branch=master)
 
 > Java-like enums in JavaScript
 

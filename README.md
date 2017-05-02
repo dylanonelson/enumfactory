@@ -54,6 +54,29 @@ var Rainbow = createEnum(
 )(Color); // => Uncaught Error: Cannot define a constant for RED twice in the same enum
 ```
 
+```js
+// ES2015, with decorators!
+import { createEnum, defineConstant } from 'enumfactory';
+
+@createEnum(
+  defineConstant('WHITE', { hex: '#FFF', name: 'white' }),
+  defineConstant('BLACK', { hex: '#000', name: 'black' })
+)
+class Colors {
+  constructor() {
+    if (options) {
+      this._rgb = options.rgb;
+      this._hex = options.hex;
+      this._name = options.name;
+    }
+  }
+}
+
+Colors.values() // => [WHITE, BLACK]
+
+// etc...
+```
+
 ## Installation
 
 enumfactory is available as an npm module and exported with the universal module definition, so you can choose to deploy or bundle it as a browser global, a CommonJS module, or an AMD module.

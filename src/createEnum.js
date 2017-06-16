@@ -22,21 +22,7 @@ const createEnum = (...enumArgs) => {
       classOrFunc = String;
     }
 
-    const proxyProto = new Proxy(targetObj, {
-      get(target, property) {
-        // Forward calls to methods such as #toString() to the object
-        if (typeof property === 'symbol')
-          return target[property];
-
-        if (target[property] === undefined)
-          throw new Error(`Value ${property} is not present in enum.`);
-
-        return target[property];
-      },
-      set(target, property, value) {
-        throw new Error('Cannot assign new members to enum type');
-      },
-    });
+    proxyProto = targetObj;
 
     const createConstant = (name, args) => {
       if (named.includes(name))

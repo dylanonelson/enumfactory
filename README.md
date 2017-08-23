@@ -1,6 +1,7 @@
-# enumfactory ![Build status](https://travis-ci.org/dylanonelson/enumfactory.svg?branch=master)
-
+# enumfactory
 > Java-like enums in JavaScript
+
+![Build status](https://travis-ci.org/dylanonelson/enumfactory.svg?branch=master)
 
 ## Example
 

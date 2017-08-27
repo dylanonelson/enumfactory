@@ -1,4 +1,4 @@
-import { createEnum, defineConstant } from '../../../dist/index.bundle.js';
+import { createEnum, defineConstant } from '../context';
 import Colors from './Colors';
 
 const enumTypeFromClass = () => createEnum(

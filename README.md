@@ -45,7 +45,7 @@ Colors.WHITE.hex // => "#FFF"
 Colors.WHITE.name // => function () { return name }
 Object.getPrototypeOf(Colors.WHITE.name) // => "white"
 
-Colors.RED // => Uncaught Error: Value RED is not present in enum.
+Colors.RED // => Uncaught Error: Value RED is not present in enum. (See note below on `Proxy` and `process.env.NODE_ENV`)
 
 var Rainbow = createEnum(
   defineConstant('RED'),
@@ -81,8 +81,6 @@ Colors.values() // => [Color, Color]
 ## Installation
 
 enumfactory is available as an npm module and exported with the universal module definition, so you can choose to deploy or bundle it as a browser global, a CommonJS module, or an AMD module.
-
-It will only work in environments that support the `Proxy` global. It has not been rigorously tested in older browsers :-D.
 
 ## Methods
 
@@ -128,6 +126,9 @@ Returns
 ```javascript
 `Enum ${name}`
 ```
+
+#### A note on errors
+In development (`process.env.NODE_ENV !== 'production'`) and when the environment supports `Proxy`s, an EnumType will throw errors when you try to get or set a property that is not defined. If either of the former conditions are not met, EnumTypes behave like normal JavaScript objects.
 
 #### A note on equality
 Every EnumValue is an object, even those which are defined as strings. So each constant will evaluate as strictly equal *only to itself*.

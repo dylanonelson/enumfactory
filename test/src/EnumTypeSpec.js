@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 
+import { enumShouldThrowErrors } from './context';
 import { enumTypeFromClass, enumTypeFromParameterlessClass, enumTypeFromString, Colors } from './samples';
 
 var data = [
@@ -64,17 +65,19 @@ var runTests = function(d) {
         assert.strictEqual(e.WHITE, e.WHITE);
       });
 
-      it('throws errors when you try to access an undefined key', function() {
-        assert.throw(function() { return e.RED });
-      });
+      if (enumShouldThrowErrors()) {
+        it('throws errors when you try to access an undefined key', function() {
+          assert.throw(function() { return e.RED });
+        });
 
-      it('throws errors when you try to reset existing properties on it', function() {
-        assert.throw(function() { e.WHITE = 'MyConstant' });
-      });
+        it('throws errors when you try to reset existing properties on it', function() {
+          assert.throw(function() { e.WHITE = 'MyConstant' });
+        });
 
-      it('throws errors when you try to set new properties on it', function() {
-        assert.throw(function() { e.RED = 'MyConstant' });
-      });
+        it('throws errors when you try to set new properties on it', function() {
+          assert.throw(function() { e.RED = 'MyConstant' });
+        });
+      }
 
       switch (d.context) {
         case 'created with a class': {

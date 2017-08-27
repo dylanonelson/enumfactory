@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { defineConstant, createEnum } from '../../dist/index.bundle.js';
+import { defineConstant, createEnum } from './context';
 
 describe('createEnum', function() {
   it('is a function', function() {

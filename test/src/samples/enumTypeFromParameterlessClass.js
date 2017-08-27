@@ -1,5 +1,5 @@
 import Colors from './Colors';
-import { createEnum, defineConstant } from '../../../dist/index.bundle.js';
+import { createEnum, defineConstant } from '../context';
 
 const enumTypeFromParameterlessClass = () => createEnum(
   defineConstant('WHITE'),

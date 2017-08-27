@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "main": "dist/index.bundle.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dylanonelson/enumfactory"
@@ -11,12 +11,16 @@
     "java"
   ],
   "scripts": {
-    "build": "webpack --colors --progress",
+    "build": "babel src -d lib",
     "build:test": "webpack --colors --progress --config=webpack.config.test.js",
-    "pretest": "npm run build && npm run build:test",
-    "start:tmux": "tmux split-window \"npm run watch:build:test\" && tmux split-window \"npm run watch:build\" && tmux select-layout main-vertical && npm run watch:test:server",
-    "test": "npm run test:server",
+    "pretest": "npm run build",
+    "pretest:server:dev": "NODE_ENV=development npm run build:test",
+    "pretest:server:prd": "NODE_ENV=production npm run build:test",
+    "start:tmux": "tmux split-window \"npm run watch:build:test\" && tmux select-layout main-vertical && npm run watch:test:server",
+    "test": "npm run test:server:dev && npm run test:server:prd",
     "test:server": "mocha ./test/dist/",
+    "test:server:dev": "npm run test:server",
+    "test:server:prd": "npm run test:server",
     "test:browser": "open ./test/dist/index.html",
     "watch:build": "npm run build -- --watch",
     "watch:build:test": "npm run build:test -- --watch",
@@ -26,6 +30,7 @@
   "license": "ISC",
   "name": "enumfactory",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.10",

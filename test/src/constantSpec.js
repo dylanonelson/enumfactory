@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { defineConstant } from '../../dist/index.bundle.js';
+import { defineConstant } from './context';
 
 describe('Constant', function() {
   it('is a function', function() {

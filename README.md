@@ -16,7 +16,7 @@ var Letters = createEnum(
   defineConstant('BETA')
 )();
 
-Letters.ALPHA // => ALPHA {}
+Letters.ALPHA // => String {getDeclaringClass: f, toString: f}
 
 Letters.ALPHA.name() // => "ALPHA"
 
@@ -39,7 +39,7 @@ var Colors = createEnum(
   defineConstant('BLACK', { hex: '#000', name: 'black' })
 )(Color);
 
-Colors.values() // => [WHITE, BLACK]
+Colors.values() // => [Color, Color]
 
 Colors.WHITE.hex // => "#FFF"
 Colors.WHITE.name // => function () { return name }
@@ -73,7 +73,7 @@ class Colors {
   }
 }
 
-Colors.values() // => [WHITE, BLACK]
+Colors.values() // => [Color, Color]
 
 // etc...
 ```

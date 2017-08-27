@@ -6,10 +6,11 @@
 ## Example
 
 ```javascript
-// ES5, in the browser
+// ES5
 
-var createEnum = window.enumfactory.createEnum;
-var defineConstant = window.enumfactory.defineConstant;
+var enumfactory = require('enumfactory');
+var createEnum = enumfactory.createEnum;
+var defineConstant = enumfactory.defineConstant;
 
 var Letters = createEnum(
   defineConstant('ALPHA'),
@@ -56,7 +57,7 @@ var Rainbow = createEnum(
 ```
 
 ```js
-// ES2015, with decorators!
+// ESNext, with decorators!
 import { createEnum, defineConstant } from 'enumfactory';
 
 @createEnum(
@@ -80,7 +81,7 @@ Colors.values() // => [Color, Color]
 
 ## Installation
 
-enumfactory is available as an npm module and exported with the universal module definition, so you can choose to deploy or bundle it as a browser global, a CommonJS module, or an AMD module.
+`npm i --save-dev enumfactory`
 
 ## Methods
 

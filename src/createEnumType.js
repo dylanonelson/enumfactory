@@ -1,9 +1,9 @@
 function createEnumType(type) {
-  return new Function('props',
-    `return function Enumerated${type.name}() {
+  return function (props) {
+    return function Enum() {
       Object.defineProperties(this, props);
-    }`
-  );
+    };
+  }
 }
 
 export default createEnumType;

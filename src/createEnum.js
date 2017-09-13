@@ -3,6 +3,10 @@ import createEnumType from './createEnumType';
 import { objIsDefinedConstant } from './defineConstant';
 import { enumShouldThrowErrors } from './utilities';
 
+const WHITELISTED_PROPS = [
+  '__esModule', // babel support
+];
+
 const createEnum = (...enumArgs) => {
   if (enumArgs.length === 0)
     throw new Error(`Cannot create an enum type with no defined constants`);
@@ -38,7 +42,11 @@ const createEnum = (...enumArgs) => {
           return target[property];
         },
         set(target, property, value) {
-          throw new Error('Cannot assign new members to enum type');
+          if (WHITELISTED_PROPS.includes(property)) {
+            target[property] = value;
+          } else {
+            throw new Error('Cannot assign new members to enum type');
+          }
         },
       });
     } else {

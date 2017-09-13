@@ -8,6 +8,6 @@ deploy:
   on:
     branch: master
     tags: true
-    skip_cleanup: true
   provider: npm
+  skip_cleanup: true
 sudo: required

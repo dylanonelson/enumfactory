@@ -33,6 +33,12 @@ var Color = function(options) {
     this._hex = options.hex;
     this._name = options.name;
   }
+
+  Object.defineProperty(this, 'name', {
+    get: function () {
+      return this._name;
+    },
+  });
 }
 
 var Colors = createEnum(
@@ -44,7 +50,7 @@ Colors.values() // => [Color, Color]
 
 Colors.WHITE.hex // => "#FFF"
 Colors.WHITE.name // => function () { return name }
-Object.getPrototypeOf(Colors.WHITE.name) // => "white"
+Object.getPrototypeOf(Colors.WHITE).name // => "white"
 
 Colors.RED // => Uncaught Error: Value RED is not present in enum. (See note below on `Proxy` and `process.env.NODE_ENV`)
 
@@ -62,7 +68,7 @@ import { createEnum, defineConstant } from 'enumfactory';
 
 @createEnum(
   defineConstant('WHITE', { hex: '#FFF', name: 'white' }),
-  defineConstant('BLACK', { hex: '#000', name: 'black' })
+  defineConstant('BLACK', { hex: '#000', name: 'black' }),
 )
 class Colors {
   constructor() {
@@ -71,6 +77,10 @@ class Colors {
       this._hex = options.hex;
       this._name = options.name;
     }
+  }
+
+  get name() {
+    return this._name;
   }
 }
 
